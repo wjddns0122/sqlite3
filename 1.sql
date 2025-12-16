@@ -6,9 +6,9 @@ INSERT INTO employees(name) VALUES(“이길동”);
 
 INSERT INTO employees(name) VALUES(“일론머스크”);
 
-.mode (list, line, column)
-.headers on
-.headers off
+-- .mode (list, line, column)
+-- .headers on
+-- .headers off
 
 CREATE TABLE people(
 	id INTEGER PRIMARY KEY, 
@@ -19,7 +19,7 @@ CREATE TABLE people(
 );
 
 INSERT INTO people VALUES(1, "first1", "last1", 21, "M");
-INSERT INTO people VALUES("first1", "last1", 21, "M");	// error
+INSERT INTO people VALUES("first1", "last1", 21, "M");	-- error
 
 INSERT INTO people (first_name, last_name, age, gender)VALUES("first1", "last1", 21, "M");
 
@@ -61,10 +61,10 @@ DELETE FROM people WHERE id=5;
 DELETE FROM people WHERE id=4;
 DELETE FROM people WHERE id=3;
 
-                     오름차순 ASC -> Ascending
+                    --  오름차순 ASC -> Ascending
 SELECT * FROM people ORDER BY age;
 
-                     내림차순 DESC -> Descending
+                    --  내림차순 DESC -> Descending
 SELECT * FROM people ORDER BY age DESC;
 
 SELECT * FROM people ORDER BY first_name;
@@ -80,10 +80,10 @@ SELECT last_name || ' ' || first_name AS fullname, age, gender FROM people LIMIT
 SELECT last_name || ' ' || first_name AS fullname, age, gender FROM people LIMIT 5 OFFSET 10;
 
 
-CRM ex)
+-- CRM ex)
 
 
-ORDER clause
+-- ORDER clause
 
 SELECT * FROM users LIMIT 20 OFFSET 0;
 SELECT * FROM users LIMIT 20 OFFSET 20;
@@ -91,7 +91,7 @@ SELECT * FROM users LIMIT 20 OFFSET 40;
 
 SELECT name, gender, age, birthday FROM users LIMIT 20;
 
-20대의 사람들만 골라서, 나이순으로 정렬하세요
+-- 20대의 사람들만 골라서, 나이순으로 정렬하세요
 SELECT * FROM people 
 WHERE age BETWEEN 20 AND 29 
 ORDER BY age;
@@ -100,10 +100,10 @@ SELECT * FROM people
 WHERE age IN (22, 27, 29)
 ORDER BY age;
 
-'박'씨 찾기
+-- '박'씨 찾기
 SELECT * FROM people WHERE last_name='박';
 
-이름어디든지 '서'가 들어간 사람 찾기
+-- 이름어디든지 '서'가 들어간 사람 찾기
 SELECT * FROM people WHERE first_name LIKE '서%';
 SELECT * FROM people WHERE first_name LIKE '%서';
 SELECT * FROM people WHERE first_name LIKE '%서%';
@@ -112,18 +112,18 @@ SELECT * FROM people WHERE first_name LIKE '%서%';
 DELETE FROM people WHERE first_name LIKE '%서';
 
 
-대ㅐㅐㅐㅐㅐㅐㅐㅐㅐ충
-하나의 테이블로 CRUD를 대ㅐㅐㅐㅐㅐㅐ충 배움 ㅎㅎㅋ ㅋㅋㅋ ㅋ ㅋ ㅋ ㅋ ㅋ 
+-- 대ㅐㅐㅐㅐㅐㅐㅐㅐㅐ충
+-- 하나의 테이블로 CRUD를 대ㅐㅐㅐㅐㅐㅐ충 배움 ㅎㅎㅋ ㅋㅋㅋ ㅋ ㅋ ㅋ ㅋ ㅋ 
 
 
-우리 소라 개명 한번 하자 -> 하은이로 개명 한번 하자
-13|소라|이|28|여
+-- 우리 소라 개명 한번 하자 -> 하은이로 개명 한번 하자
+-- 13|소라|이|28|여
 UPDATE people SET first_name='하은' WHERE first_name='소라';
 
-여자로 되있는거 다 M으로 바꾸자
+-- 여자로 되있는거 다 M으로 바꾸자
 UPDATE people SET gender="M" WHERE gender="여";
 
-처음으로 다시 시작
+-- 처음으로 다시 시작
 
 CREATE TABLE employee (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -147,9 +147,9 @@ INSERT INTO dept VALUES(1, "영업팀", "서울");
 INSERT INTO dept VALUES(2, "개발팀", "판교");
 INSERT INTO dept VALUES(3, "인사팀", "집");
 
-두개의 테이블을 합치는 과정을 .. JOIN
+-- 두개의 테이블을 합치는 과정을 .. JOIN
 
-교집합 찾기
+-- 교집합 찾기
 SELECT employee.id, employee.name, dept.name, dept.location 
 FROM employee
 INNER JOIN dept 
@@ -204,7 +204,7 @@ SELECT SUM(price) FROM product;
 SELECT AVG(price) FROM product;
 
 
-====================== GROUB BY ======================
+-- ====================== GROUB BY ======================
 
 그룹핑..
 
