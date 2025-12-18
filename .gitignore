@@ -1,1 +1,10 @@
 .DS_Store
+
+
+# node modules 제외
+node_modules/
+
+# 각종 db 파일들
+*.db
+*.sqlite
+*.sqlite3
