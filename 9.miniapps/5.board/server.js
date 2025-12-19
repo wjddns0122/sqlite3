@@ -34,7 +34,7 @@ app.post("/api/create", (req, res) => {
 });
 
 app.delete("/api/delete/:id", (req, res) => {
-    const id = Number(req.params.id);
+    const id = parseInt(req.params.id);
     console.log("글 삭제");
     // 비즈로직 구현
     const sql = "DELETE FROM board WHERE id=?";
@@ -44,10 +44,14 @@ app.delete("/api/delete/:id", (req, res) => {
     // res.send('글 삭제');
 });
 
-app.put("/api/modify", (req, res) => {
-    console.log("글 수정");
+app.put("/api/modify/:id", (req, res) => {
+    const id = parseInt(req.params.id);
+    const { title, message } = req.body;
+    // console.log("글 수정");
     // 비즈로직 구현
-    res.send("글 수정");
+    const sql = "UPDATE board SET title = ?, message = ? WHERE id = ?";
+    db.execute(sql, [title, message, id]);
+    res.send({ result: "success" });
 });
 
 app.listen(port, () => {

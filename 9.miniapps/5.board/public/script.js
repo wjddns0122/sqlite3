@@ -12,20 +12,29 @@ function makeCard(id, title, message) {
     // DOM 위치 가져오기
     // DOM 생성하기
     // 기존에 있던 DOM의 차일드에 추가하기
-
     const card = document.createElement("div");
     card.innerHTML = `
-        <div class="card" id="card_${id}">
+        <div class="card mb-3" id="card_${id}">
             <div class="card-body">
-                <p class="card-id">${id}</p>
-                <p class="card-title">${title}</p>
-                <p class="card-text">${message}</p>
-                <button class="btn btn-info" onclick="modifyPost(${id})">수정</button>
-                <button class="btn btn-warning" onclick="deletePost(${id})">삭제</button>
+                <p class="card-id text-muted">ID: ${id}</p>
+                <div class="content-area">
+                    <h5 class="card-title">${title}</h5>
+                    <p class="card-text">${message}</p>
+                </div>
+                <button class="btn btn-info modify-btn">수정</button>
+                <button class="btn btn-warning delete-btn">삭제</button>
             </div>
         </div>
     `;
     document.getElementById("card-list").appendChild(card);
+
+    // 이벤트 리스너 연결
+    const modifyBtn = card.querySelector(".modify-btn");
+    modifyBtn.addEventListener("click", () => modifyPost(id, modifyBtn));
+
+    card.querySelector(".delete-btn").addEventListener("click", () =>
+        deletePost(id)
+    );
 }
 
 function uploadPost() {
@@ -73,9 +82,43 @@ function deletePost(id) {
         });
 }
 
-function 수정함수() {
-    // DOM 으로 수정할 위치 가져오기
-    // 기존에 글 있던 곳을, 글을 입력하는곳의 DOM 으로 바꾸기
-    // 저장을 누르면??
-    //  fetch(글수정).then(성공확인).then(불러오기(=카드만들기))
+function modifyPost(id, btn) {
+    const cardBody = btn.closest(".card-body");
+    const contentArea = cardBody.querySelector(".content-area");
+
+    // 현재 버튼의 상태가 "수정"이면 입력칸으로 교체
+    if (btn.innerText === "수정") {
+        const currentTitle = contentArea.querySelector(".card-title").innerText;
+        const currentText = contentArea.querySelector(".card-text").innerText;
+
+        // 1. 입력창으로 UI 교체
+        contentArea.innerHTML = `
+            <input type="text" class="form-control mb-2 edit-title" value="${currentTitle}">
+            <textarea class="form-control mb-2 edit-text">${currentText}</textarea>
+        `;
+
+        // 2. 버튼 디자인 및 텍스트 변경
+        btn.innerText = "저장";
+        btn.classList.replace("btn-info", "btn-success");
+    } else {
+        // 현재 버튼의 상태가 "저장"이면 서버로 fetch 요청
+        const newTitle = contentArea.querySelector(".edit-title").value;
+        const newText = contentArea.querySelector(".edit-text").value;
+
+        fetch(`/api/modify/${id}`, {
+            method: "PUT",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ title: newTitle, message: newText }),
+        })
+            .then((res) => res.json())
+            .then((data) => {
+                if (data.result === "success") {
+                    alert("수정 완료");
+                    location.reload(); // 새로고침하여 데이터 갱신
+                } else {
+                    alert("수정 실패");
+                }
+            })
+            .catch((err) => console.error("Error:", err));
+    }
 }
